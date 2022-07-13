@@ -1,0 +1,8 @@
+{
+    "sendMail": false,
+    "mailConfig": {
+        "user":"",
+        "pass":"",
+        "mailto":""
+    }
+}
