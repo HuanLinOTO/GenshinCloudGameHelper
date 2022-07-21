@@ -45,7 +45,7 @@
 >> # ios
 >> App Store中下载应用Stream（用于抓包）<br>
 >> 然后看视频吧
->> 看不了/不显示的[点这里](#https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false)
+>> 看不了/不显示的点右边 https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false
 >> <video src="https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false"></video><br><br>
 > # android&鸿蒙<br>
 >> (来自https://bili33.top/posts/MHYY-AutoCheckin-Manual)<br>
