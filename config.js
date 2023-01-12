@@ -87,14 +87,13 @@ exports.checkConfigs = function(configs){
             if(configThis[configKeys[key]] == "" || configThis[configKeys[key]] == undefined || configThis[configKeys[key]] == null || configThis[configKeys[key]] == NaN) {
                 log.error(`配置文件 ${file} 异常：`);
                 log.error(`  —— ${configKeys[key]}字段缺失`);
-                isNoProbem = false;
-                break;
+                // isNoProbem = false;
             }
         }
         
-        if(!isNoProbem) {
-            exit();
-        }
+        // if(!isNoProbem) {
+        //     exit();
+        // }
     }
 }
 

@@ -59,12 +59,16 @@ for(key in configs) {
     logContent += `<span style="color: orange">${key} Wallet返回体 <br> ${JSON.stringify(WalletRespond)}</span><br>`;
     var NotificationRespond = Notification(makeHeader(configs[key]));
     logContent += `<span style="color: orange">${key} Notification返回体 <br> ${JSON.stringify(NotificationRespond)}</span><br>`;
-    if(WalletRespond.data.free_time.free_time != undefined) {
-        successNum ++;
-        log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
-        let NotificationLength = NotificationRespond.data.list.length
-        if(NotificationLength != 0) {
-            log.info(`已堆积 ${NotificationLength} 个签到通知 请及时处理!`)
+    if(WalletRespond.data != null) {
+        if(WalletRespond.data.free_time.free_time != undefined) {
+            successNum ++;
+            log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
+            let NotificationLength = NotificationRespond.data.list.length
+            if(NotificationLength != 0) {
+                log.info(`已堆积 ${NotificationLength} 个签到通知 请及时处理!`)
+            }
+        } else {
+            log.error("签到失败")
         }
     } else {
         log.error("签到失败")
