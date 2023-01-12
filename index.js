@@ -48,7 +48,7 @@ log.info("检测完毕！")
 
 log.info("正在获取版本号")
 var appversion = AppVersion();
-appversion = appversion.data.config["cg.key_function_controller"].versions[appversion.data.config["cg.key_function_controller"].versions.length-1]
+appversion = appversion.data.config["cg.key_function_video_mode"].versions["0"]
 log.info(`获取成功！当前版本号：${appversion}`)
 var successNum = 0,totalNum = 0;
 for(key in configs) {
@@ -59,12 +59,16 @@ for(key in configs) {
     logContent += `<span style="color: orange">${key} Wallet返回体 <br> ${JSON.stringify(WalletRespond)}</span><br>`;
     var NotificationRespond = Notification(makeHeader(configs[key]));
     logContent += `<span style="color: orange">${key} Notification返回体 <br> ${JSON.stringify(NotificationRespond)}</span><br>`;
-    if(WalletRespond.data.free_time.free_time != undefined) {
-        successNum ++;
-        log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
-        let NotificationLength = NotificationRespond.data.list.length
-        if(NotificationLength != 0) {
-            log.info(`已堆积 ${NotificationLength} 个签到通知 请及时处理!`)
+    if(WalletRespond.data != null) {
+        if(WalletRespond.data.free_time.free_time != undefined) {
+            successNum ++;
+            log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
+            let NotificationLength = NotificationRespond.data.list.length
+            if(NotificationLength != 0) {
+                log.info(`已堆积 ${NotificationLength} 个签到通知 请及时处理!`)
+            }
+        } else {
+            log.error("签到失败")
         }
     } else {
         log.error("签到失败")
