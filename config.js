@@ -6,7 +6,8 @@ const nodemailer = require('nodemailer')
 exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?status=NotificationStatusUnread&type=NotificationTypePopup&is_sort=true'
 exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get'
 exports.AnnouncementURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/getAnnouncementInfo'
-exports.AppVersionURL = 'https://api-cloudgame-static.mihoyo.com/hk4e_cg_cn/gamer/api/getFunctionShieldNew?client_type=1'
+// Here must be an earlier version so that the response won't be null
+exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.3.0&channel=mihoyo'
 
 exports.Notification = function(header) {
     let tmp = JSON.parse(request("GET",exports.NotificationURL,{
