@@ -48,7 +48,7 @@ log.info("检测完毕！")
 
 log.info("正在获取版本号")
 var appversion = AppVersion();
-appversion = appversion.data.game.latest.version
+appversion = appversion.data.package_version
 log.info(`获取成功！当前版本号：${appversion}`)
 var successNum = 0,totalNum = 0;
 for(key in configs) {
