@@ -31,8 +31,8 @@ log.info("获取成功")
 if (globalConfig.sendMail == true) {
     log.info("组装邮件发射器")
     var transporter = nodemailer.createTransport({
-        host: 'smtp.163.com',
-        port: 465,
+        host: globalConfig.mailConfig.smtpServer,
+        port: globalConfig.mailConfig.smtpPort,
         secure: true,
         auth: {
             user: globalConfig.mailConfig.user, 

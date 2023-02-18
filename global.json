@@ -3,6 +3,8 @@
     "mailConfig": {
         "user":"",
         "pass":"",
-        "mailto":""
+        "mailto":"",
+        "smtpServer":"",
+        "smtpPort":""
     }
 }
