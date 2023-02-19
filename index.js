@@ -33,7 +33,7 @@ if (globalConfig.sendMail == true) {
     var transporter = nodemailer.createTransport({
         host: globalConfig.mailConfig.smtpServer,
         port: globalConfig.mailConfig.smtpPort,
-        secure: true,
+        secure: globalConfig.mailConfig.smtpSecure,
         auth: {
             user: globalConfig.mailConfig.user, 
             pass: globalConfig.mailConfig.pass
