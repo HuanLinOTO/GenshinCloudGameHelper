@@ -2,7 +2,7 @@ const fs = require("fs")
 
 const reggol = require("reggol")
 
-const { getConfigs, checkConfigs, makeHeader, Notification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
+const { getConfigs, checkConfigs, makeHeader, ListNotification, AckNotification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
 const urlconfig = require("./config")
 
 const { log, addLogContent, getLogs } = require("./logger");
@@ -39,21 +39,23 @@ const nodemailer = require("nodemailer");
         totalNum ++;
         log.info(`正在执行配置 ${key}`)
         log.info("尝试签到……")
-        var WalletRespond = await Wallet(makeHeader(configs[key]),appversion);
+        var header = makeHeader(configs[key], appversion);
+        var WalletRespond = await Wallet(header);
         addLogContent(`<span style="color: orange">${key} Wallet返回体 <br> ${JSON.stringify(WalletRespond)}</span><br>`);
-        var NotificationRespond = await Notification(makeHeader(configs[key]));
+        var NotificationRespond = await ListNotification(header);
         addLogContent(`<span style="color: orange">${key} Notification返回体 <br> ${JSON.stringify(NotificationRespond)}</span><br>`);
         if(WalletRespond.data != null) {
-            if(WalletRespond.data.free_time.free_time != undefined) {
-                successNum ++;
-                log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
-                let NotificationLength = NotificationRespond.data.list.length
-                if(NotificationLength != 0) {
-                    log.info(`已堆积 ${NotificationLength} 个签到通知 请及时处理!`)
-                }
-            } else {
-                log.error("签到失败")
-            }
+            successNum ++;
+            log.info(`签到完毕! 剩余时长:${WalletRespond.data.free_time.free_time}分钟`)
+            let NotificationLength = NotificationRespond.data.list.length
+            let postHeader = header;
+		    Object.assign(postHeader, {
+		    	"Content-Length": 28,
+		    	"Content-Type": "application/json",
+		    });
+		    for (var i = 0; i < NotificationLength; i++) {
+		    	AckNotification(postHeader, NotificationRespond.data.list[i].id);
+		    }
         } else {
             log.error("签到失败")
         }

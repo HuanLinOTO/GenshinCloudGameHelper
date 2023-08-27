@@ -4,18 +4,25 @@ const nodemailer = require('nodemailer')
 const { default: axios } = require("axios")
 const { log } = require("./logger")
 
-exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.ListNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.AckNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/ackNotification'
 exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get?cost_method=COST_METHOD_UNSPECIFIED'
 exports.AnnouncementURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/getAnnouncementInfo'
 // Here must be an earlier version so that the response won't be null
 exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.8.0&channel=mihoyo'
 
-exports.Notification = async function(header) {
-    let tmp = (await axios(exports.NotificationURL,{
+exports.ListNotification = async function(header) {
+    let tmp = (await axios(exports.ListNotificationURL,{
         headers:header
     })).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
+}
+exports.AckNotification = async function(header, id) {
+    let data = `{"id":"${id}"}`;
+    await axios.post(exports.AckNotificationURL, data,{
+        headers:header
+    });
 }
 exports.Wallet = async function(header) {
     let tmp = (await axios(exports.WalletURL,{
