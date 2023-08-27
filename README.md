@@ -1,4 +1,4 @@
-# GenshinCloudPlayHelpper
+# GenshinCloudGameHelper
 
 每天帮你获取15分钟云原神时间~
 
