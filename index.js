@@ -73,9 +73,6 @@ for(key in configs) {
     } else {
         log.error("签到失败")
     }
-    // log.info(`Wallet ${Wallet(makeHeader(configs[key])).StringVersion}`)
-    // log.info(`Announcement ${Announcement(makeHeader(configs[key])).StringVersion}`)
-    // console.log(makeHeader(configs[key]));
 }
 
 if (globalConfig.sendMail == true) {
