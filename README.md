@@ -18,7 +18,8 @@
         "pass":"",
         "mailto":"",
         "smtpServer":"",
-        "smtpPort":""
+        "smtpPort":"",
+        "smtpSecure": true
     }
 }
 ```
