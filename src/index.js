@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer')
 const baseLogger = new reggol("GenshinCloudPlayHelper")
 var logContent = `` 
 
-global.log = {
+const log = {
     info(content){
         logContent += `<strong style="color: green">[info]</strong> ${content}<br>`
         baseLogger.info(content)
