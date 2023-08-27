@@ -4,11 +4,11 @@ const nodemailer = require('nodemailer')
 const { default: axios } = require("axios")
 const { log } = require("./logger")
 
-exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?status=NotificationStatusUnread&type=NotificationTypePopup&is_sort=true'
-exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get'
+exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get?cost_method=COST_METHOD_UNSPECIFIED'
 exports.AnnouncementURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/getAnnouncementInfo'
 // Here must be an earlier version so that the response won't be null
-exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.3.0&channel=mihoyo'
+exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.8.0&channel=mihoyo'
 
 exports.Notification = async function(header) {
     let tmp = (await axios(exports.NotificationURL,{
@@ -103,20 +103,25 @@ exports.checkConfigs = function(configs){
 
 exports.makeHeader = function(data,appversion){
     return {
-        'x-rpc-combo_token': data.token,
-        'x-rpc-client_type': data.client_type,
-        'x-rpc-app_version': appversion,
-        'x-rpc-sys_version': data.sys_version,
-        'x-rpc-channel': data.channel,
-        'x-rpc-device_id': data.device_id,
-        'x-rpc-device_name': data.device_name,
-        'x-rpc-device_model': data.device_model,
-        'x-rpc-app_id': 1953439974,
-        'Referer': 'https://app.mihoyo.com',
-        'Host': 'api-cloudgame.mihoyo.com',
-        'Connection': 'Keep-Alive',
-        'Accept-Encoding': 'gzip',
-        'User-Agent': 'okhttp/4.9.0'
+        "x-rpc-combo_token": data.token,
+		"x-rpc-client_type": data.client_type,
+		"x-rpc-app_version": appversion,
+		"x-rpc-sys_version": data.sys_version,
+		"x-rpc-channel": data.channel,
+		"x-rpc-device_id": data.device_id,
+		"x-rpc-device_name": data.device_name,
+		"x-rpc-device_model": data.device_model,
+		"x-rpc-app_id": 1953439974,
+		"x-rpc-cg_game_biz": "hk4e_cn",
+		"x-rpc-preview": 0,
+		"x-rpc-op_biz": "clgm_cn",
+		"x-rpc-language": "zh-cn",
+		"x-rpc-vendor_id": 2,
+		Referer: "https://app.mihoyo.com",
+		Host: "api-cloudgame.mihoyo.com",
+		Connection: "Keep-Alive",
+		"Accept-Encoding": "gzip, deflate",
+		Accept: "*/*",
     }
 }
 
