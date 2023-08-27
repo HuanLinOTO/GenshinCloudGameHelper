@@ -6,6 +6,7 @@ const { getConfigs, checkConfigs, makeHeader, Notification, Wallet, SendLog, App
 const urlconfig = require("./config")
 
 const { log } = require("./logger")
+
 (async () => {
     log.info("开始获取全局配置")
     var globalConfig = getGlobalConfig();
