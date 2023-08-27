@@ -1,6 +1,5 @@
 const { exit } = require("process")
 const fs = require("fs") 
-const nodemailer = require('nodemailer')
 const { default: axios } = require("axios")
 const { log } = require("./logger")
 
@@ -67,7 +66,6 @@ exports.getGlobalConfig = function() {
 }
 
 exports.getConfigs = function(){
-    // var configsList;
     try {
         var configsList = fs.readdirSync("configs")
     } catch(e) {
@@ -91,22 +89,16 @@ exports.getConfigs = function(){
 exports.checkConfigs = function(configs){
     for(file in configs) {
         var configThis = configs[file];
-        var isNoProbem = true;
         for(key in configKeys) {
             if(configThis[configKeys[key]] == "" || configThis[configKeys[key]] == undefined || configThis[configKeys[key]] == null || configThis[configKeys[key]] == NaN) {
                 log.error(`配置文件 ${file} 异常：`);
                 log.error(`  —— ${configKeys[key]}字段缺失`);
-                // isNoProbem = false;
+
             }
         }
-        
-        // if(!isNoProbem) {
-        //     exit();
-        // }
+
     }
 }
-
-// var appversion = exports.AppVersion();
 
 exports.makeHeader = function(data,appversion){
     return {
@@ -139,7 +131,7 @@ exports.SendLog = function(transporter,mailfrom,mailto,successNum,totalNum,conte
         subject: `今日已签到${successNum}/${totalNum}名用户`, // 邮件主题
         text: '☺️😍😎', // 存文本类型的邮件正文
         html: `${content}` // html类型的邮件正文
-    }, (error, info) => {
+    }, (error) => {
         if (error) {
         return console.log(error);
         }

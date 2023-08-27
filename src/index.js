@@ -1,9 +1,4 @@
-const fs = require("fs") 
-
-const reggol = require("reggol")
-
 const { getConfigs, checkConfigs, makeHeader, ListNotification, AckNotification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
-const urlconfig = require("./config")
 
 const { log, addLogContent, getLogs } = require("./logger");
 
@@ -26,7 +21,6 @@ const nodemailer = require("nodemailer");
         });
     }
     var configs = getConfigs();
-    // console.log(configs);
     log.info(`正在检测配置有效性`)
     checkConfigs(configs)
     log.info("检测完毕！")
@@ -59,9 +53,6 @@ const nodemailer = require("nodemailer");
         } else {
             log.error("签到失败")
         }
-        // log.info(`Wallet ${Wallet(makeHeader(configs[key])).StringVersion}`)
-        // log.info(`Announcement ${Announcement(makeHeader(configs[key])).StringVersion}`)
-        // console.log(makeHeader(configs[key]));
     }
     
     if (globalConfig.sendMail == true) {
