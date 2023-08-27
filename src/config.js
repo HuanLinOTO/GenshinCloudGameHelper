@@ -2,6 +2,7 @@ const { exit } = require("process")
 const fs = require("fs") 
 const nodemailer = require('nodemailer')
 const { default: axios } = require("axios")
+const { log } = require("./logger")
 
 exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?status=NotificationStatusUnread&type=NotificationTypePopup&is_sort=true'
 exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get'

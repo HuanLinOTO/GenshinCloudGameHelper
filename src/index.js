@@ -5,44 +5,28 @@ const reggol = require("reggol")
 const { getConfigs, checkConfigs, makeHeader, Notification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
 const urlconfig = require("./config")
 
-const nodemailer = require('nodemailer')
-
-const baseLogger = new reggol("GenshinCloudPlayHelper")
-var logContent = `` 
-
-const log = {
-    info(content){
-        logContent += `<strong style="color: green">[info]</strong> ${content}<br>`
-        baseLogger.info(content)
-    },
-    error(content){
-        logContent += `<strong style="color: red">[error]</strong> ${content}<br>`
-        baseLogger.error(content)
-    }
-}
-
-log.info("开始获取全局配置")
-var globalConfig = getGlobalConfig();
-log.info("获取成功")
-if (globalConfig.sendMail == true) {
-    log.info("组装邮件发射器")
-    var transporter = nodemailer.createTransport({
-        host: globalConfig.mailConfig.smtpServer,
-        port: globalConfig.mailConfig.smtpPort,
-        secure: globalConfig.mailConfig.smtpSecure,
-        auth: {
-            user: globalConfig.mailConfig.user, 
-            pass: globalConfig.mailConfig.pass
-        }
-    });
-}
-var configs = getConfigs();
-// console.log(configs);
-log.info(`正在检测配置有效性`)
-checkConfigs(configs)
-log.info("检测完毕！")
-
+const { log } = require("./logger")
 (async () => {
+    log.info("开始获取全局配置")
+    var globalConfig = getGlobalConfig();
+    log.info("获取成功")
+    if (globalConfig.sendMail == true) {
+        log.info("组装邮件发射器")
+        var transporter = nodemailer.createTransport({
+            host: globalConfig.mailConfig.smtpServer,
+            port: globalConfig.mailConfig.smtpPort,
+            secure: globalConfig.mailConfig.smtpSecure,
+            auth: {
+                user: globalConfig.mailConfig.user, 
+                pass: globalConfig.mailConfig.pass
+            }
+        });
+    }
+    var configs = getConfigs();
+    // console.log(configs);
+    log.info(`正在检测配置有效性`)
+    checkConfigs(configs)
+    log.info("检测完毕！")
     log.info("正在获取版本号")
     var appversion = await AppVersion();
     appversion = appversion.data.package_version
