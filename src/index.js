@@ -7,6 +7,8 @@ const urlconfig = require("./config")
 
 const { log, addLogContent } = require("./logger");
 
+const nodemailer = require("nodemailer")
+
 (async () => {
     log.info("开始获取全局配置")
     var globalConfig = getGlobalConfig();
