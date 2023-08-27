@@ -3,17 +3,24 @@ const fs = require("fs")
 const request = require("sync-request")
 const nodemailer = require('nodemailer')
 
-exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.ListNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.AckNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/ackNotification'
 exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get?cost_method=COST_METHOD_UNSPECIFIED'
 // Here must be an earlier version so that the response won't be null
 exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.8.0&channel=mihoyo'
 
-exports.Notification = function(header) {
-    let tmp = JSON.parse(request("GET",exports.NotificationURL,{
+exports.ListNotification = function(header) {
+    let tmp = JSON.parse(request("GET",exports.ListNotificationURL,{
         headers:header
     }).body.toString());
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
+}
+exports.AckNotification = function(header, id) {
+    request("POST",exports.AckNotificationURL,{
+        headers:header,
+        body:`{"id":"${id}"}`
+    })
 }
 exports.Wallet = function(header) {
     let tmp = JSON.parse(request("GET",exports.WalletURL,{
@@ -103,11 +110,16 @@ exports.makeHeader = function(data,appversion){
         'x-rpc-device_name': data.device_name,
         'x-rpc-device_model': data.device_model,
         'x-rpc-app_id': 1953439974,
+        'x-rpc-cg_game_biz': 'hk4e_cn',
+        'x-rpc-preview': 0,
+        'x-rpc-op_biz': 'clgm_cn',
+        'x-rpc-language': 'zh-cn',
+        'x-rpc-vendor_id': 2,
         'Referer': 'https://app.mihoyo.com',
         'Host': 'api-cloudgame.mihoyo.com',
         'Connection': 'Keep-Alive',
-        'Accept-Encoding': 'gzip',
-        'User-Agent': 'okhttp/4.9.0'
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*'
     }
 }
 
