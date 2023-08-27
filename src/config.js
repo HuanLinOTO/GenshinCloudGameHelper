@@ -11,28 +11,28 @@ exports.AnnouncementURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api
 exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.3.0&channel=mihoyo'
 
 exports.Notification = async function(header) {
-    let tmp = (await axios("GET",exports.NotificationURL,{
+    let tmp = (await axios(exports.NotificationURL,{
         headers:header
     })).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
 }
 exports.Wallet = async function(header) {
-    let tmp = (await axios("GET",exports.WalletURL,{
+    let tmp = (await axios(exports.WalletURL,{
         headers:header
     })).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
 }
 exports.Announcement = async function(header) {
-    let tmp = (await axios("GET",exports.AnnouncementURL,{
+    let tmp = (await axios(exports.AnnouncementURL,{
         headers:header
     })).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
 }
 exports.AppVersion = async function() {
-    let tmp = (await axios("GET",exports.AppVersionURL)).data;
+    let tmp = (await axios(exports.AppVersionURL)).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
 }

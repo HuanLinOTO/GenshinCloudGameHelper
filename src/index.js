@@ -5,7 +5,7 @@ const reggol = require("reggol")
 const { getConfigs, checkConfigs, makeHeader, Notification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
 const urlconfig = require("./config")
 
-const { log } = require("./logger")
+const { log, addLogContent } = require("./logger");
 
 (async () => {
     log.info("开始获取全局配置")
@@ -38,9 +38,9 @@ const { log } = require("./logger")
         log.info(`正在执行配置 ${key}`)
         log.info("尝试签到……")
         var WalletRespond = await Wallet(makeHeader(configs[key]),appversion);
-        logContent += `<span style="color: orange">${key} Wallet返回体 <br> ${JSON.stringify(WalletRespond)}</span><br>`;
+        addLogContent(`<span style="color: orange">${key} Wallet返回体 <br> ${JSON.stringify(WalletRespond)}</span><br>`);
         var NotificationRespond = await Notification(makeHeader(configs[key]));
-        logContent += `<span style="color: orange">${key} Notification返回体 <br> ${JSON.stringify(NotificationRespond)}</span><br>`;
+        addLogContent(`<span style="color: orange">${key} Notification返回体 <br> ${JSON.stringify(NotificationRespond)}</span><br>`);
         if(WalletRespond.data != null) {
             if(WalletRespond.data.free_time.free_time != undefined) {
                 successNum ++;
