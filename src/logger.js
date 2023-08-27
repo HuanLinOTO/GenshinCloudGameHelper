@@ -1,3 +1,4 @@
+const reggol = require("reggol")
 const baseLogger = new reggol("GenshinCloudPlayHelper")
 var logContent = `` 
 
