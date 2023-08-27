@@ -4,6 +4,10 @@ let logContent = ``
 exports.addLogContent = function(content) {
     logContent += content
 }
+exports.getLogs = function() {
+    return logContent
+}
+
 exports.log = {
     info(content) {
         logContent += `<strong style="color: green">[info]</strong> ${content}<br>`

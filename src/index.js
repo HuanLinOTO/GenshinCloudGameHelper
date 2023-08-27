@@ -5,9 +5,9 @@ const reggol = require("reggol")
 const { getConfigs, checkConfigs, makeHeader, Notification, Wallet, SendLog, AppVersion, getGlobalConfig } = require("./config")
 const urlconfig = require("./config")
 
-const { log, addLogContent } = require("./logger");
+const { log, addLogContent, getLogs } = require("./logger");
 
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 
 (async () => {
     log.info("开始获取全局配置")
@@ -70,7 +70,7 @@ const nodemailer = require("nodemailer")
             globalConfig.mailConfig.mailto,
             successNum,
             totalNum,
-            logContent
+            getLogs()
         )
     }
 })()
