@@ -122,7 +122,7 @@ exports.makeHeader = function(data,appversion){
 
 exports.SendLog = function(transporter,mailfrom,mailto,successNum,totalNum,content) {
     transporter.sendMail({
-        from: mailfrom+'" Genshin CloudPlay Helper"', //邮件来源
+        from: mailfrom+'" Genshin CloudGame Helper"', //邮件来源
         to: mailto, //邮件发送到哪里，多个邮箱使用逗号隔开
         subject: `今日已签到${successNum}/${totalNum}名用户`, // 邮件主题
         text: '☺️😍😎', // 存文本类型的邮件正文
