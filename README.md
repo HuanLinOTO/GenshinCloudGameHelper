@@ -1,4 +1,4 @@
-# GenshinCloudGameHelpper
+# Genshin Cloud Game Helper
 
 每天帮你获取 15 分钟云原神时间~
 
@@ -14,7 +14,8 @@
         "pass":"",
         "mailto":"",
         "smtpServer":"",
-        "smtpPort":""
+        "smtpPort":"",
+        "smtpSecure":true
     }
 }
 ```

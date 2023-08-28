@@ -1,21 +1,27 @@
 const { exit } = require("process")
 const fs = require("fs") 
-const nodemailer = require('nodemailer')
 const { default: axios } = require("axios")
 const { log } = require("./logger")
 
-exports.NotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?status=NotificationStatusUnread&type=NotificationTypePopup&is_sort=true'
-exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get'
+exports.ListNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/listNotifications?is_sort=true&source=NotificationSourceUnknown&status=NotificationStatusUnread&type=NotificationTypePopup'
+exports.AckNotificationURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/ackNotification'
+exports.WalletURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/wallet/wallet/get?cost_method=COST_METHOD_UNSPECIFIED'
 exports.AnnouncementURL = 'https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/getAnnouncementInfo'
 // Here must be an earlier version so that the response won't be null
-exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.3.0&channel=mihoyo'
+exports.AppVersionURL = 'https://api-takumi.mihoyo.com/ptolemaios/api/getLatestRelease?app_id=1953443910&app_version=3.8.0&channel=mihoyo'
 
-exports.Notification = async function(header) {
-    let tmp = (await axios(exports.NotificationURL,{
+exports.ListNotification = async function(header) {
+    let tmp = (await axios(exports.ListNotificationURL,{
         headers:header
     })).data;
     tmp.StringVersion = JSON.stringify(tmp);
     return tmp;
+}
+exports.AckNotification = async function(header, id) {
+    let data = `{"id":"${id}"}`;
+    await axios.post(exports.AckNotificationURL, data,{
+        headers:header
+    });
 }
 exports.Wallet = async function(header) {
     let tmp = (await axios(exports.WalletURL,{
@@ -60,7 +66,6 @@ exports.getGlobalConfig = function() {
 }
 
 exports.getConfigs = function(){
-    // var configsList;
     try {
         var configsList = fs.readdirSync("configs")
     } catch(e) {
@@ -84,50 +89,49 @@ exports.getConfigs = function(){
 exports.checkConfigs = function(configs){
     for(file in configs) {
         var configThis = configs[file];
-        var isNoProbem = true;
         for(key in configKeys) {
             if(configThis[configKeys[key]] == "" || configThis[configKeys[key]] == undefined || configThis[configKeys[key]] == null || configThis[configKeys[key]] == NaN) {
                 log.error(`配置文件 ${file} 异常：`);
                 log.error(`  —— ${configKeys[key]}字段缺失`);
-                // isNoProbem = false;
+
             }
         }
-        
-        // if(!isNoProbem) {
-        //     exit();
-        // }
+
     }
 }
 
-// var appversion = exports.AppVersion();
-
 exports.makeHeader = function(data,appversion){
     return {
-        'x-rpc-combo_token': data.token,
-        'x-rpc-client_type': data.client_type,
-        'x-rpc-app_version': appversion,
-        'x-rpc-sys_version': data.sys_version,
-        'x-rpc-channel': data.channel,
-        'x-rpc-device_id': data.device_id,
-        'x-rpc-device_name': data.device_name,
-        'x-rpc-device_model': data.device_model,
-        'x-rpc-app_id': 1953439974,
-        'Referer': 'https://app.mihoyo.com',
-        'Host': 'api-cloudgame.mihoyo.com',
-        'Connection': 'Keep-Alive',
-        'Accept-Encoding': 'gzip',
-        'User-Agent': 'okhttp/4.9.0'
+        "x-rpc-combo_token": data.token,
+		"x-rpc-client_type": data.client_type,
+		"x-rpc-app_version": appversion,
+		"x-rpc-sys_version": data.sys_version,
+		"x-rpc-channel": data.channel,
+		"x-rpc-device_id": data.device_id,
+		"x-rpc-device_name": data.device_name,
+		"x-rpc-device_model": data.device_model,
+		"x-rpc-app_id": 1953439974,
+		"x-rpc-cg_game_biz": "hk4e_cn",
+		"x-rpc-preview": 0,
+		"x-rpc-op_biz": "clgm_cn",
+		"x-rpc-language": "zh-cn",
+		"x-rpc-vendor_id": 2,
+		Referer: "https://app.mihoyo.com",
+		Host: "api-cloudgame.mihoyo.com",
+		Connection: "Keep-Alive",
+		"Accept-Encoding": "gzip, deflate",
+		Accept: "*/*",
     }
 }
 
 exports.SendLog = function(transporter,mailfrom,mailto,successNum,totalNum,content) {
     transporter.sendMail({
-        from: mailfrom+'" Genshin CloudGame Helper"', //邮件来源
+        from: `"Genshin Cloud Game Helper" <${mailfrom}>`, //邮件来源
         to: mailto, //邮件发送到哪里，多个邮箱使用逗号隔开
         subject: `今日已签到${successNum}/${totalNum}名用户`, // 邮件主题
-        text: '☺️😍😎', // 存文本类型的邮件正文
+        text: '', // 存文本类型的邮件正文
         html: `${content}` // html类型的邮件正文
-    }, (error, info) => {
+    }, (error) => {
         if (error) {
         return console.log(error);
         }
