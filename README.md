@@ -4,9 +4,10 @@
 
 ## 配置教程
 
-### 全局配置 global.json
+### 全局配置
 
-```
+```json
+// global.json
 {
     "sendMail": true,
     "mailConfig": {
@@ -20,20 +21,20 @@
 }
 ```
 
-> sendMail   一个 bool 代表是否在运行结束后将结果发送至指定邮箱，false 时 mailConfig 内的内容可不填
-> mailConfig 具体配置
+> sendMail   bool, 是否在运行结束后将结果发送至指定邮箱，false 时 mailConfig 中的内容可为空
+> mailConfig 配置
 > 
 > > user 发送方邮箱
 > > 
-> > pass 有授权码的填授权码，没有的填密码，填了密码报错了找授权码
+> > pass 有授权码的填授权码，没有的填密码, 使用密码报错就一般填入授权码即可
 > > 
-> > mailto 接收方邮箱
+> > mailto 目标邮箱
 > > 
-> > smtpServer 发送邮件时使用的 smtp 服务器地址
+> > smtpServer 发送邮件时使用的 SMTP 服务器地址
 > > 
-> > smtpPort smtp 服务器端口
+> > smtpPort SMTP 服务器端口
 > > 
-> > smtpSecure 如果 smtp 服务器使用 SSL/TLS，那么为 true，如果使用 STARTTLS 或不使用加密，那么为 false
+> > smtpSecure 如果 SMTP 服务器使用 SSL/TLS，那么为 true，如果使用 STARTTLS 或不使用加密，那么为 false
 
 对于常用的邮件而言，配置列举如下
 
@@ -64,26 +65,26 @@
 具体数据 请看“抓包”环节
 
 > token 是在云原神登录后用于验证的标记
-> client_type 1 代表 ios 设备 2 代表 android&鸿蒙设备
+> client_type 1 代表 IOS 设备 2 代表 安卓/鸿蒙 设备
 > device_name 设备名称
 > device_model 设备型号
 > device_id 在米哈游服务器中注册的 uuid
-> sys_version 系统版本 android&鸿蒙中为系统版本 ios 设备中为 ios 版本
-> channel 下载渠道 ios 设备填"app store" android&鸿蒙填"mihoyo"（以抓包为准，我也不知道渠道服是不是这个）
+> sys_version 系统版本 安卓/鸿蒙 中为系统版本, IOS 设备中为 ios 版本
+> channel 下载渠道 IOS 设备填"app store" 安卓&鸿蒙填"mihoyo" (以抓包为准，我也不知道渠道服是不是这个)
 
 ### 抓包
 
-> > # ios
+> > # IOS
 > > 
 > > App Store 中下载应用 Stream（用于抓包）
-> > 然后看视频吧
-> > 看不了/不显示的点右边 https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false
+> > 具体看视频
+> > 看不了/不显示的, 可以手动访问 https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false
 > > <video src="https://hzsj.coding.net/p/ayakaturtleshop/d/PublicResource/git/raw/master/c9f1a9b91951b0f1c2da8f3817274074.mp4?download=false"></video>
 > 
-> # android&鸿蒙
+> # 安卓&鸿蒙
 > 
 > > （来自 https://bili33.top/posts/MHYY-AutoCheckin-Manual)
-> > 因为云原神是在手机上运行的，所以你需要安装一个手机上的抓包软件（例如 HttpCanary，或者如果你能够用 fiddler 电脑运行去抓也行）
+> > 因为云原神是在手机上运行的，所以你需要安装一个手机上的抓包软件（如 HttpCanary，或者如果你能够用 fiddler 电脑运行去抓也行）
 > > [![看就完了](https://cdn.bilicdn.tk/gh/Vikutorika/assets@master/img/Github/MHYY-AutoCheckin/HTTPCANARY-Result.jpg?download=false)]
 > > 一定要记得装抓包软件提供的证书，要不然解不了 SSL 连接，一定要先登录并成功进去了再启动抓包软件！！！
 > > [![看就完了](https://cdn.bilicdn.tk/gh/Vikutorika/assets@master/img/Github/MHYY-AutoCheckin/HTTPS-REQUEST-RESULT.png?download=false)]
@@ -91,7 +92,7 @@
 
 二者抓到的包差不多，抓到包之后有以下对应关系
 
-```-
+```json
 {
     "token":"x-rpc-combo_token",
     "client_type":"x-rpc-client_type",
@@ -103,9 +104,10 @@
 }
 ```
 
-对着填进去就完了
-接着在 configs 文件夹里创建任意一个 json 文件，将配置填进去
-如果想一次性签到 n 个用户，创建不同的 json 文件即可，程序会自动扫描 configs 文件夹下面的文件
+在 `configs` 文件夹里创建一个 JSON 文件(任意名称)
+将抓包得到的配置填进去  
+如果想一次性签到多个用户，创建任意名称的 JSON 文件即可，
+程序会自动扫描 configs 文件夹下面的文件
 
 ## 另外
 
